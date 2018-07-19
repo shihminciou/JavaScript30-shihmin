@@ -29,14 +29,6 @@
       <kbd>G</kbd>
       <span class="sound">SOL</span>
     </div>
-    <!-- <div data-key="72" class="key">
-      <kbd>H</kbd>
-      <span class="sound">LA</span>
-    </div>
-    <div data-key="74" class="key">
-      <kbd>J</kbd>
-      <span class="sound">SI</span>
-    </div> -->
   </div>
 
   <audio data-key="65" src="sounds/do-stretched.wav"></audio>
@@ -44,8 +36,6 @@
   <audio data-key="68" src="sounds/mi-stretched.wav"></audio>
   <audio data-key="70" src="sounds/fa-stretched.wav"></audio>
   <audio data-key="71" src="sounds/sol-stretched.wav"></audio>
-  <!-- <audio data-key="72" src="sounds/la-stretched.wav"></audio>
-  <audio data-key="74" src="sounds/si-stretched.wav"></audio> -->
 
 <script>
   function removeTransition(e) {
@@ -54,8 +44,16 @@
   }
 
   function playSound(e) {
-    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
-    const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+    
+    if(e.type == 'click'){
+      hitType = this.dataset.key;
+    }
+    else {
+      hitType = e.keyCode
+    }
+
+    const audio = document.querySelector(`audio[data-key="${hitType}"]`);
+    const key = document.querySelector(`div[data-key="${hitType}"]`);
     if (!audio) return;
 
     key.classList.add('playing');
@@ -65,7 +63,9 @@
 
   const keys = Array.from(document.querySelectorAll('.key'));
   keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+  keys.forEach(key => key.addEventListener('click',playSound));
   window.addEventListener('keydown', playSound);
+
 </script>
 
 
